@@ -36,4 +36,4 @@ I recommend the use of a virtual environment. For a commercial laptop, a good ch
 - How to install LivePyxel:   ### pending
 
 # DOCUMENTATION
-You can find targeted tutorials for each submodule, and additional information in the official online docs at ugarcil.github.io/LivePyxel/
+You can find targeted tutorials for each submodule, and additional information in the official online docs at https://ugarcil.github.io/LivePyxel/
