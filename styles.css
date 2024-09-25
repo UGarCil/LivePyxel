@@ -7,5 +7,10 @@
 
 body{
     font-size: 1.2em;
-    background-color:aliceblue;
+    color: #ffffff;
+    background-color:#292626;
+}
+
+.navbar{
+  color:green
 }
