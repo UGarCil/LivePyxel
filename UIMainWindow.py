@@ -172,6 +172,13 @@ class Ui_MainWindow(object):
         self.menuTutorials.setObjectName("menuTutorials")
         self.menuContact = QtWidgets.QMenu(self.menubar)
         self.menuContact.setObjectName("menuContact")
+        # Add the action to the menu
+        # Create an action within the menu
+        self.contact_action = QtWidgets.QAction("Visit Website", self.menubar)
+        self.menuContact.addAction(self.contact_action)
+        self.contact_action.triggered.connect(lambda: os.startfile("https://urielgarcilazo.com/index.html"))
+        
+        
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
