@@ -9,8 +9,18 @@ class VideoDeviceManager():
         self.get_avail_devices()
         
     def get_avail_devices(self):
+        print("""      
+              Finding video devices available...
+      .-------------------.
+     /--_--.------.------/|
+     |     |__||__| [==] ||
+     |     | .--. | '''' ||
+     |     || () ||      ||
+     |     | `--' |      |/
+     `-----'------'------'  Art by Joan Stark
+     """)
         available_cameras = []
-        for device_index in range(10):
+        for device_index in range(4):
             cap = cv2.VideoCapture(device_index)
             if cap.isOpened():
                 available_cameras.append(device_index)

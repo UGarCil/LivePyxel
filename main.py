@@ -179,8 +179,8 @@ class ImageAnnotator(QMainWindow):
         # Scale mouse position based on how the image is resized
         tx = local_pos.x()/label_width
         ty = local_pos.y()/label_height
-        mapped_x = (tx * label_width)
-        mapped_y = (ty * label_height)
+        mapped_x = int(tx * label_width)
+        mapped_y = int(ty * label_height)
         
         
         # scale_w = image_width / label_width
