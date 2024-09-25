@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorials</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+
+<body>
+    <!-- ############### Insert NAVBAR with jQuery ############## -->
+    <div id="navbarJQ"></div>
+    <!-- ############### Edit text elements in this page ############## -->
+    <div class="container-fluid p-5">
+        <div class="row pt-5">
+            <div class="col-lg-12">
+                <h1>Lines</h1>
+                <!-- documentation Lines -->
+                <p>Enter the folder <b>.../Micrometry/measure_lines/</b> directly from the Command Prompt </p>
+                <p>type <b>conda activate micrometry-env</b>
+                <p>type <b>python main.py</b> along with any of the desired flags: <br>
+                <ul>
+                    <li>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--ci</b>: int
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    An integer with default value 0 representing the default webcam. Change to 1, 2,
+                                    ..., to match the device that corresponds to the camera connected to the microscope
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container-fluid pt-5">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--res</b>: float
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    Decimal point value with a default value of 0.8, representing the dimensions of the
+                                    camera relative to its original size. The value of 0.8 is
+                                    used instead of 1.0 because pygame increases the resolution of an input screen.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                </p>
+                <p class="text-center">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/AU8mXUycZjo?si=zsrO1w9Cy5r2QLT6"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Curves -->
+    <div class="container-fluid p-5">
+        <div class="row pt-5">
+            <div class="col-lg-12">
+                <h1>Curves</h1>
+                <!-- documentation Curves -->
+                <p>Enter the folder <b>.../Micrometry/measure_curves/</b> directly from the Command Prompt </p>
+                <p>type <b>conda activate micrometry-env</b>
+                <p>type <b>python main.py</b> along with any of the desired flags: <br>
+                <ul>
+                    <li>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--ci</b>: int
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    An integer with default value 0 representing the default webcam. Change to 1, 2,
+                                    ..., to match the device that corresponds to the camera connected to the microscope
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container-fluid pt-5">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--res</b>: float
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    Decimal point value with a default value of 0.8, representing the dimensions of the
+                                    camera relative to its original size. The value of 0.8 is
+                                    used instead of 1.0 because pygame increases the resolution of an input screen.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                </p>
+                <p class="text-center">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/14eDZTJ3Ynk?si=TrnfX85sqmcMRcdO"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Datasets -->
+    <div class="container-fluid p-5">
+        <div class="row pt-5">
+            <div class="col-lg-12">
+                <h1>Datasets</h1>
+                <!-- documentation Datasets -->
+                <p>Enter the folder <b>.../Micrometry/Datasets/</b> directly from the Command Prompt </p>
+                <p>type <b>conda activate micrometry-env</b>
+                <p>type <b>python main.py</b> along with any of the desired flags: <br>
+                <ul>
+                    <li>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--ci</b>: int
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    An integer with default value 0 representing the default webcam. Change to 1, 2,
+                                    ..., to match the device that corresponds to the camera connected to the microscope
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container-fluid pt-5">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--res</b>: float
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    Decimal point value with a default value of 0.8, representing the dimensions of the
+                                    camera relative to its original size. The value of 0.8 is
+                                    used instead of 1.0 because pygame increases the resolution of an input screen.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container-fluid pt-5">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--pad</b>: str
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    Determine the type of padding to add to each image to make it square. One of:
+                                    <ul>
+                                        <li>black</li>
+                                        <li>random</li>
+                                        <li>reflect</li>
+                                        <li>replicate</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                </p>
+                <p class="text-center">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/rwMdXp9wXcA?si=L1YLMG50MJxrp5Cj"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- YOLO Datasets -->
+    <div class="container-fluid p-5">
+        <div class="row pt-5">
+            <div class="col-lg-12">
+                <h1>Datasets YOLO</h1>
+                <!-- documentation Datasets -->
+                <p>Enter the folder <b>.../Micrometry/Datasets_YOLO/</b> directly from the Command Prompt </p>
+                <p>type <b>conda activate micrometry-env</b>
+                <p>type <b>python main.py</b> along with any of the desired flags: <br>
+                <ul>
+                    <li>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--ci</b>: int
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    An integer with default value 0 representing the default webcam. Change to 1, 2,
+                                    ..., to match the device that corresponds to the camera connected to the microscope
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container-fluid pt-5">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--res</b>: float
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    Decimal point value with a default value of 0.8, representing the dimensions of the
+                                    camera relative to its original size. The value of 0.8 is
+                                    used instead of 1.0 because pygame increases the resolution of an input screen.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container-fluid pt-5">
+                            <div class="row">
+                                <div class="col">
+                                    <b>--kc</b>: int
+                                </div>
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col">
+                                    A binary value where
+                                    <ul>
+                                        <li>0: erases the information on the custom classes added by user in previous
+                                            runs of the program (use when starting annotations for a new project, from
+                                            scratch)</li>
+                                        <li>1: (Default) keeps the information on the custom classes added by the user
+                                            in previous runs of the program (use it when adding annotations to the same
+                                            dataset)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                </p>
+                <p class="text-center">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/c96FvKFsEvU?si=lIlGZ6SPdVfWEQNz"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#navbarJQ").load("navbar.html");
+    </script>
+</body>
+
+</html>

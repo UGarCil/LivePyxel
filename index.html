@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+
+<body>
+    <!-- ############### Insert NAVBAR with jQuery ############## -->
+    <div id="navbarJQ"></div>
+    <!-- ############### Edit text elements in this page ############## -->
+    <div class="container text-center">
+        <div class="row pt-5">
+            <div class="col-lg-6">
+                <img class="img-fluid" src="./images/github_logo.png" alt="">
+            </div>
+            <div class="col-lg-6">
+                <div class="sourceCodeFont">
+                    <h1>Micrometry</h1>
+                    <h2>Manual</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-5">
+        <div class="row pt-5">
+            <div class="col-lg-12">
+                <h1>About</h1>
+                <p>Micrometry is a Python-based application that assist in the process of gathering data from a live
+                    camera feed, with emphasis on the analysis of steroscopic and microscopic images.</p>
+                <p>
+                    The software is divided in four submodules, aimed at different applications:
+                <ul>
+                    <li>Lines: For measurements using lines only</li>
+                    <li>Curves: For measurements using Bezier curves</li>
+                    <li>Datasets: For gathering images for classification models in machine learning implementations
+                    </li>
+                    <li>YOLO Datasets: For gathering images and boxed labels for classification models using YOLO</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-12">
+                To install Micrometry, clone the <a href="https://github.com/UGarCil/Micrometry">GitHub repository</a>,
+                where you will find additional details on how to create an environment to run the program.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#navbarJQ").load("navbar.html");
+    </script>
+</body>
+
+</html>

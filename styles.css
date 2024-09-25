@@ -1,0 +1,11 @@
+.sourceCodeFont {
+  font-family: "Source Code Pro", monospace;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+body{
+    font-size: 1.2em;
+    background-color:aliceblue;
+}
