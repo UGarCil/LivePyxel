@@ -12,9 +12,9 @@ import sys
 import cv2
 import numpy as np
 from PyQt5.QtCore import Qt, QPoint, QTimer
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtGui import QImage, QPixmap, QKeySequence
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton,QColorDialog
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton,QColorDialog,QMessageBox,QShortcut
 import uuid
 ########################### ARGPARSE arguments ###################################
 parser = argparse.ArgumentParser(description='Line measurement tool')
@@ -68,7 +68,7 @@ savePath = jn(os.path.dirname(__file__),"output.txt")
 # DD. BRUSH_SETTINGS
 # brush_settings = {"color":(int, int, int)}
 # interp. a set of parameters represented as a mutable object to be used globally within different submodules of the program
-brush_settings = {"color":(0, 255, 0), "size":20,"resize_sensitivity":5, "is_brush_mode":True}
+brush_settings = {"color":(0, 255, 0), "size":20,"resize_sensitivity":5, "is_brush_mode":"brush"}
 
 # DD. DISPLAY_SETTINGS
 # display_settings = {"image":np.array, "mask":np.array}

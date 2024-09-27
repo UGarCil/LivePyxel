@@ -30,7 +30,7 @@ class Polyman():
         #   set the polygon as complete to draw it as a filled area
         #   add the polygon to the list
         #   create a new empty polygon
-        if not brush_settings["is_brush_mode"]:
+        if brush_settings["is_brush_mode"] == "polygon":
             # self.current_polygon["DONE"] = True
             self.current_polygon["COLOR"] = brush_settings["color"]
             points = [(pt.x, pt.y) for pt in self.current_polygon["POINTS"]]
@@ -41,4 +41,8 @@ class Polyman():
             #     self.lopolygon.append(self.current_polygon)
             self.current_polygon = {"DONE":False, "POINTS":[], "COLOR":None}
             # self.lopolygon.append(self.current_polygon)
-        
+
+
+    def pop_last_point(self):
+        if len(self.current_polygon["POINTS"])>0:
+            self.current_polygon["POINTS"].pop(-1)

@@ -74,7 +74,7 @@ class VideoDeviceManager():
             mask_name = jn(os_settings["masks_path"],mask_name)
             cv2.imwrite(image_name,img)
             cv2.imwrite(mask_name,copy_mask)
-        
+            display_settings["mask"] = np.zeros_like(display_settings["mask"])
 
 # if __name__ == "__main__":
 #     get_image_from_webcam()

@@ -2,11 +2,13 @@ from constants import *  # Replace with your constants for window size
 from webcamUtils import VideoDeviceManager  # Replace with your own webcam capture function
 from UIMainWindow import Ui_MainWindow
 from polyman import Polyman
-
+from bezierman import Bezierman
 class ImageAnnotator(QMainWindow):
     def __init__(self):
         super().__init__()
         self.polygon_manager = None
+        self.bezier_manager = None
+        self.bezier_current_pos = None
         self.mainUI = Ui_MainWindow()
         self.mainUI.setupUi(self)
         self.imageFrozen = False #image captured
@@ -38,6 +40,7 @@ class ImageAnnotator(QMainWindow):
         self.mainUI.btn_capture.clicked.connect(self.captureManager)
         self.mainUI.polygon_button.clicked.connect(lambda: self.update_paint_mode("polygon"))
         self.mainUI.brush_button.clicked.connect(lambda: self.update_paint_mode("brush"))
+        self.mainUI.bezier_button.clicked.connect(lambda: self.update_paint_mode("bezier"))
 
         # Enable mouse tracking for the window and image display label
         self.setMouseTracking(True)
@@ -57,16 +60,43 @@ class ImageAnnotator(QMainWindow):
         # Create a container for the edit button blocks and add the first buttonblock
         self.mainUI.add_btn_block(label_text="New Label")
         
+        # Add Ctrl+Z behaviour
+        # Create a shortcut for Ctrl+Z and connect it to a custom function
+        self.shortcut_undo = QShortcut(QKeySequence("Ctrl+Z"), self)
+        self.shortcut_undo.activated.connect(self.handle_undo)
+        
+        # Add ESC behaviour
+        # Create a shortcut for Escape and connect it to a custom function
+        self.shortcut_undo = QShortcut(QKeySequence("Escape"), self)
+        self.shortcut_undo.activated.connect(self.reset_tool)
+        
         # show application in fullscreen
-        self.showFullScreen()
+        # self.showFullScreen()
+        self.showMaximized()
 
         self.update_image_display()
 
-    def update_paint_mode(self,mode:str):
-        brush_settings["is_brush_mode"] = True if mode != "polygon" else False
-        # if polygon mode, create a new object to hold the parameters of such polygon
-        if not brush_settings["is_brush_mode"]:
+    def reset_tool(self):
+        # if polygon mode
+        if brush_settings["is_brush_mode"] == "polygon":
             self.polygon_manager = Polyman()
+        elif brush_settings["is_brush_mode"] == "bezier":
+            self.bezier_manager = Bezierman()
+
+    def handle_undo(self):
+        # if polygon mode
+        if brush_settings["is_brush_mode"] == "polygon":
+            self.polygon_manager.pop_last_point()
+        elif brush_settings["is_brush_mode"] == "bezier":
+            self.bezier_manager.pop_last_point()
+
+    # Update the tool MODE
+    def update_paint_mode(self,mode:str):
+        brush_settings["is_brush_mode"] = mode
+        if brush_settings["is_brush_mode"] == "polygon":
+            self.polygon_manager = Polyman()
+        elif brush_settings["is_brush_mode"] == "bezier":
+            self.bezier_manager = Bezierman()
             
         
 
@@ -117,7 +147,7 @@ class ImageAnnotator(QMainWindow):
         ).astype(np.uint8)  # Ensure the result stays within valid RGB values
 
 
-        if brush_settings["is_brush_mode"]:
+        if brush_settings["is_brush_mode"] == "brush":
             # Handle brush preview (if not drawing)
             if not self.drawing:
                 preview_image = rendered_image.copy()
@@ -133,12 +163,12 @@ class ImageAnnotator(QMainWindow):
             self.mainUI.imageDisplay.setPixmap(QPixmap.fromImage(qimage))
             
         # POLYGON MODE 
-        else:
+        elif brush_settings["is_brush_mode"] == "polygon":
             polygon = self.polygon_manager.current_polygon
             preview_image = rendered_image.copy()
             # Convert the list of namedtuples to a NumPy array of shape (n_points, 1, 2)
-            points_array = np.array([[p.x, p.y] for p in polygon["POINTS"]], np.int32)
-            points_array = points_array.reshape((-1, 1, 2))
+            # points_array = np.array([[p.x, p.y] for p in polygon["POINTS"]], np.int32)
+            # points_array = points_array.reshape((-1, 1, 2))
             
             # if polygon["DONE"]:
             #     if polygon == self.polygon_manager.lopolygon[-1]:
@@ -159,6 +189,40 @@ class ImageAnnotator(QMainWindow):
 
             # Set the QPixmap on the QLabel
             self.mainUI.imageDisplay.setPixmap(QPixmap.fromImage(qimage))
+        
+        # BEZIER mode
+        elif brush_settings["is_brush_mode"] == "bezier":
+            preview_image = rendered_image.copy()
+            if not self.bezier_manager is None and len(self.bezier_manager.lobu) >0:
+                self.bezier_manager.draw(self.bezier_current_pos,preview_image)
+                # bu = self.bezier_manager.lobu[-1]
+                
+                # Convert the list of namedtuples to a NumPy array of shape (n_points, 1, 2)
+                # points_array = np.array([[p.x, p.y] for p in bu.points], np.int32)
+                # points_array = points_array.reshape((-1, 1, 2))
+                
+                # if polygon["DONE"]:
+                #     if polygon == self.polygon_manager.lopolygon[-1]:
+                #         # Draw the filled polygon on the mask
+                #         cv2.fillPoly(display_settings["mask"], [points_array], color=brush_settings["color"])
+                #     else:
+                #         cv2.fillPoly(display_settings["mask"], [points_array], polygon["COLOR"])
+                    # Draw the polygon on the mask
+                    # cv2.polylines(preview_image, [points_array], isClosed=True, color=brush_settings["color"], thickness=4)    
+                    # Draw a circle on each point (vertex)
+                # for idx,point in enumerate(polygon["POINTS"]):
+                #     if idx < len(polygon["POINTS"])-1:
+                #         cv2.line(preview_image, point, polygon["POINTS"][idx+1], color=brush_settings["color"], thickness=1)
+                #     cv2.circle(preview_image, (point.x, point.y), 2, brush_settings["color"], -1)
+                            
+
+                qimage = self.convert_cv_qt(preview_image)
+
+                # Set the QPixmap on the QLabel
+                self.mainUI.imageDisplay.setPixmap(QPixmap.fromImage(qimage))
+            else:
+                qimage = self.convert_cv_qt(preview_image)
+                self.mainUI.imageDisplay.setPixmap(QPixmap.fromImage(qimage))
             
             
     def convert_cv_qt(self, cv_img):
@@ -199,7 +263,7 @@ class ImageAnnotator(QMainWindow):
     def mousePressEvent(self, event):
         """Start drawing when the mouse is pressed."""
         if cursor_settings["in_display"]:
-            if brush_settings["is_brush_mode"]:
+            if brush_settings["is_brush_mode"] == "brush":
                 if event.button() == Qt.LeftButton:
                     self.drawing = True
                     self.erasing = False
@@ -215,42 +279,57 @@ class ImageAnnotator(QMainWindow):
                     self.last_point = self.map_to_image_display(global_pos)
                     
             # if polygon mode
-            else:
+            elif brush_settings["is_brush_mode"] == "polygon":
                 global_pos = event.globalPos()  # Get global position
                 self.last_point = self.map_to_image_display(global_pos)
                 local_pos = Coordinate(self.last_point.x(), self.last_point.y())
                 self.polygon_manager.current_polygon["POINTS"].append(local_pos)
                 
+            elif brush_settings["is_brush_mode"] == "bezier":
+                self.bezier_manager.onMouseEventDown(self.bezier_current_pos)
                 
     def mouseMoveEvent(self, event):
         """Track mouse movement and update the brush preview."""
-        if cursor_settings["in_display"] and brush_settings["is_brush_mode"]:
-            global_pos = event.globalPos()  # Get global position of the mouse
-            self.current_pos = self.map_to_image_display(global_pos)
+        if cursor_settings["in_display"]:
+            if brush_settings["is_brush_mode"] == "brush":
+                global_pos = event.globalPos()  # Get global position of the mouse
+                self.current_pos = self.map_to_image_display(global_pos)
 
-            if event.buttons() & Qt.LeftButton and self.drawing:
-                # Update the mask with the brush stroke in OpenCV
-                cv2.line(display_settings["mask"], (self.last_point.x(), self.last_point.y()), 
-                        (self.current_pos.x(), self.current_pos.y()), brush_settings["color"], brush_settings["size"])
-                self.last_point = self.current_pos
+                if event.buttons() & Qt.LeftButton and self.drawing:
+                    # Update the mask with the brush stroke in OpenCV
+                    cv2.line(display_settings["mask"], (self.last_point.x(), self.last_point.y()), 
+                            (self.current_pos.x(), self.current_pos.y()), brush_settings["color"], brush_settings["size"])
+                    self.last_point = self.current_pos
 
-            elif event.buttons() & Qt.RightButton and self.erasing:
-                # Erase by drawing over the mask with a transparent color
-                cv2.line(display_settings["mask"], (self.last_point.x(), self.last_point.y()), 
-                        (self.current_pos.x(), self.current_pos.y()), (0, 0, 0, 0), brush_settings["size"])  # Assuming (0, 0, 0, 0) is transparent
-                self.last_point = self.current_pos
+                elif event.buttons() & Qt.RightButton and self.erasing:
+                    # Erase by drawing over the mask with a transparent color
+                    cv2.line(display_settings["mask"], (self.last_point.x(), self.last_point.y()), 
+                            (self.current_pos.x(), self.current_pos.y()), (0, 0, 0, 0), brush_settings["size"])  # Assuming (0, 0, 0, 0) is transparent
+                    self.last_point = self.current_pos
+                
+            elif cursor_settings["in_display"] and brush_settings["is_brush_mode"] == "bezier":
+                global_pos = event.globalPos()  # Get global position
+                self.last_point = self.map_to_image_display(global_pos)
+                self.bezier_current_pos = Coordinate(self.last_point.x(), self.last_point.y())
+                self.bezier_manager.update(self.bezier_current_pos)
+            
             self.update_image_display()
+            
+        
+        
 
     def mouseReleaseEvent(self, event):
         """Finish drawing when the mouse is released."""
         if cursor_settings["in_display"]:
-            if brush_settings["is_brush_mode"]:                
+            if brush_settings["is_brush_mode"] == "brush":                
                 if event.button() == Qt.LeftButton:
                     self.drawing = False
+            if brush_settings["is_brush_mode"] == "bezier":
+                self.bezier_manager.onMouseEventUp(self.bezier_current_pos)
 
     def wheelEvent(self, event):
         """Handle mouse scroll events."""
-        if cursor_settings["in_display"] and brush_settings["is_brush_mode"]:
+        if cursor_settings["in_display"] and brush_settings["is_brush_mode"]=="brush":
             delta = event.angleDelta().y()  # Get the vertical scroll amount
             if delta > 0:
                 brush_settings["size"] += brush_settings["resize_sensitivity"]
@@ -261,14 +340,36 @@ class ImageAnnotator(QMainWindow):
             self.update_image_display()  # Update the display to reflect the new brush size
         
     def keyReleaseEvent(self, event):
-        if not brush_settings["is_brush_mode"]:
+        if brush_settings["is_brush_mode"] == "polygon":
             # Check if the Enter key was pressed
-            if event.key() == Qt.Key_Enter:
+            if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
                 self.polygon_manager.finishPolygon()
+                
+        elif brush_settings["is_brush_mode"] == "bezier":
+            if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
+                self.bezier_manager.finishPolygon()
+            
             # else:
             #     super().keyPressEvent(event)  # Pass the event to the parent class for default behavior
 
-    
+    def closeEvent(self, event):
+        # This function is triggered when the window is about to close
+        reply = QMessageBox.question(self, 'Window Close', 
+                                    'Would you like to save the project before closing the window?',
+                                    QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, 
+                                    QMessageBox.Cancel)
+
+        if reply == QMessageBox.Yes:
+            # Save the project and close the window
+            self.mainUI.save_json_file()
+            event.accept()  # Accept the event to close the window
+        elif reply == QMessageBox.No:
+            # Do not save, just close the window
+            event.accept()  # Accept the event to close the window
+        else:
+            # Cancel the close action
+            event.ignore()  # Ignore the close event, keeping the window open
+        
     # def enterEvent(self, event):
         
     #     """Hide the cursor when it enters the imageDisplay area."""

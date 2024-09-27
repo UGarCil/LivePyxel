@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
         self.actionSaveFile.triggered.connect(self.save_json_file)
         self.menuFIle.addAction(self.actionNew)
         self.menuFIle.addAction(self.actionLoad_Folder_Ctrl_L)
-        self.menuFIle.addAction(self.actionSaveFile)#!!!
+        self.menuFIle.addAction(self.actionSaveFile)
         self.menubar.addAction(self.menuFIle.menuAction())
         self.menubar.addAction(self.menuTutorials.menuAction())
         self.menubar.addAction(self.menuContact.menuAction())
@@ -227,6 +227,16 @@ class Ui_MainWindow(object):
         self.brush_button.setIconSize(QtCore.QSize(30, 30))
         self.brush_button.setObjectName("brush_button")
         self.horizontalLayout_2.addWidget(self.brush_button)
+        # Bezier button
+        self.bezier_button = QtWidgets.QPushButton(self.widget)
+        self.bezier_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.bezier_button.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("icons/bezier_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.bezier_button.setIcon(icon2)
+        self.bezier_button.setIconSize(QtCore.QSize(30, 30))
+        self.bezier_button.setObjectName("bezier_button")
+        self.horizontalLayout_2.addWidget(self.bezier_button)
         self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
 
         self.retranslateUi(MainWindow)
@@ -477,7 +487,7 @@ class Ui_MainWindow(object):
         else:
             print("No file selected.")
 
-        
+    
 # DD. DISPLAY_WIDGET
 # displayWidget = WebcamWidget(QLabel)
 # interp. a child class optimized for event controlling
@@ -488,9 +498,9 @@ class WebcamWidget(QtWidgets.QLabel):
 
     def enterEvent(self, event):
         """Hide the cursor when the mouse enters the widget."""
-        if brush_settings["is_brush_mode"]:
+        if brush_settings["is_brush_mode"] == "brush":
             self.setCursor(Qt.BlankCursor)
-        else:
+        elif brush_settings["is_brush_mode"] == "polygon":
             custom_cursor_pixmap = QtGui.QPixmap("./icons/bright_cross_cursor.png")  # Ensure you have a bright cursor image
             custom_cursor = QtGui.QCursor(custom_cursor_pixmap)
             self.setCursor(custom_cursor)
