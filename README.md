@@ -1,15 +1,18 @@
 # LivePyxel
 
-![Length of a Rotifer using Bezier curves](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/main_logo_long.png)
-
+![logo livePyxel](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/main_logo_long.png)
+![software preview](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/gif_view.gif)
 LivePyxel is a python-based application, designed for a fast pixel annotation of images taken directly from a webcam feed  
+
+# TUTORIALS
+- Using LivePyxel for the first time:  https://ugarcil.github.io/LivePyxel/tutorials.html
 
 ## INSTALLATION
 
 You will need a version of python >=3.9 with the following libraries installed:  
 
 
-&emsp; pyqt5
+&emsp; pyqt5  
 &emsp; opencv
 
 I recommend the use of a virtual environment. For a commercial laptop, a good choice is to use Anaconda. Install anaconda for your OS and follow the next steps:  
@@ -31,9 +34,6 @@ I recommend the use of a virtual environment. For a commercial laptop, a good ch
 ```
     python main.py
 ```
-
-# TUTORIALS
-- How to install LivePyxel:   ### pending
 
 # DOCUMENTATION
 You can find targeted tutorials for each submodule, and additional information in the official online docs at https://ugarcil.github.io/LivePyxel/
