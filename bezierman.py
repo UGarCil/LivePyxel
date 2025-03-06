@@ -19,7 +19,8 @@ pt = Coordinate(0,0)
 
 # At the moment of its conception, the Bu will start at a point A
 class Bu():
-    def __init__(self,pA=(0,0),pG=(0,0),pB=(0,0)):
+    def __init__(self,pA=(0,0),pG=(0,0),pB=(0,0), keep_pG=False):
+        self.keep_pG = keep_pG
         self.pA = pA
         self.pG = pA
         self.pG_inverse = self.pG
@@ -60,7 +61,9 @@ class Bu():
     def draw(self, coor, preview_image):
         # as long as user drags without pressing down mouse for second time, the point G will be the same as the point A (i.e. no deformation)
         if self.ptA_Set and not self.ptB_Set:
-            self.pB = self.pG = coor
+            self.pB = coor 
+            if not self.keep_pG:
+                self.pG = coor
         # RENDER THE LINE SEGMENTS OF THE BEZIER CURVE
         self.saved_points = self.fill_bezier_unit(self.pA,self.pG,self.pB)
 
@@ -177,7 +180,11 @@ class Bezierman():
             elif last_bu.ptA_Set and last_bu.ptB_Set and last_bu.finishedBu:
                 # if not self.doneSpline:
                 last_bu.draw_laterals = False
-                bu = Bu(last_bu.pB)
+                if len(self.lobu)%2 != 0:
+                    bu = Bu(last_bu.pB, keep_pG=True)
+                else:
+                    bu = Bu(last_bu.pB, keep_pG=False)
+                    
                 # if there's already other Bu's, use the previous (i = -1) Bu
                 # variable lastbu.pG for this pG pos
                 bu.pG = last_bu.pG_inverse
