@@ -1,32 +1,36 @@
-from constants import *  # Replace with your constants for window size
-from webcamUtils import VideoDeviceManager  # Replace with your own webcam capture function
-from UIMainWindow import Ui_MainWindow
+from constants import *  
+from video_device_manager import VideoDeviceManager  
+from ui_main_window import Ui_MainWindow
 from polyman import Polyman
 from bezierman import Bezierman
+
+# C.D. IMAGE_ANNOTATOR
+# purp. This class is the main class that handles the image annotation tool. It is responsible for the following:
+# 1. Handling the annotation tools (brush, polygon, bezier)
+# 2. Handling the mouse events for drawing 
+# 3. Handling the webcam integration >>> VideoDeviceManager()
+# 4. Handling the image display >>> VideoDeviceManager()
+# 5. Handling the UI components >>> Ui_MainWindow()
 class ImageAnnotator(QMainWindow):
     def __init__(self):
         super().__init__()
+        # Tools init
         self.polygon_manager = None
         self.bezier_manager = None
-        self.bezier_current_pos = None
+        self.bezier_current_pos = None #!!!
         self.mainUI = Ui_MainWindow()
         self.mainUI.setupUi(self)
         self.imageFrozen = False #image captured
-        # initialize the webcam
+        # Webcam init
         self.deviceManager = VideoDeviceManager()
         cursor_settings["in_display"] = False #whether the cursor is inside the image display, which is the only time painting tools should work        
-        
-        # Set up the main window
-        # self.setGeometry(0, 0, W + LATERAL_PADDING.x, H + TOP_PADDING.y)
-        # self.setWindowTitle("Micrometry v.2.0")
 
         # OpenCV image processing setup
-        display_settings["image"] = self.deviceManager.get_image_from_webcam()
-        # self.image = self.deviceManager.get_image_from_webcam()  # Load first frame from webcam
-        display_settings["mask"] = np.zeros_like(display_settings["image"])  # Mask for drawing
-        # self.maskImage = np.zeros_like(self.image)  # Mask for drawing
         
-        # self.mainUI.mask = display_settings["mask"]
+        display_settings["image"] = self.deviceManager.get_image_from_webcam()
+        display_settings["mask"] = np.zeros_like(display_settings["image"])  # Mask for drawing
+        
+        # initialize the brush settings
         self.brush_preview_color = (0, 150, 0)  # Darker green for preview
         self.mainUI.brush_slider.setValue(70)
         self.maskStrength = self.mainUI.brush_slider.value()
@@ -41,6 +45,8 @@ class ImageAnnotator(QMainWindow):
         self.mainUI.polygon_button.clicked.connect(lambda: self.update_paint_mode("polygon"))
         self.mainUI.brush_button.clicked.connect(lambda: self.update_paint_mode("brush"))
         self.mainUI.bezier_button.clicked.connect(lambda: self.update_paint_mode("bezier"))
+        self.mainUI.isAdditive_button.clicked.connect(self.update_isAdditive_mode)
+
 
         # Enable mouse tracking for the window and image display label
         self.setMouseTracking(True)
@@ -75,6 +81,15 @@ class ImageAnnotator(QMainWindow):
         self.showMaximized()
 
         self.update_image_display()
+
+    # Change the status of the isAdditive button
+    def update_isAdditive_mode(self):
+        os_settings["substractive_mode"] = not os_settings["substractive_mode"]
+        if os_settings["substractive_mode"]:
+            self.mainUI.isAdditive_button.setIcon(self.mainUI.isAdditive_button_off_icon)
+        else:
+            self.mainUI.isAdditive_button.setIcon(self.mainUI.isAdditive_button_on_icon)
+                
 
     def reset_tool(self):
         # if polygon mode
@@ -326,6 +341,10 @@ class ImageAnnotator(QMainWindow):
                     self.drawing = False
             if brush_settings["is_brush_mode"] == "bezier":
                 self.bezier_manager.onMouseEventUp(self.bezier_current_pos)
+                global_pos = event.globalPos()  # Get global position
+                self.last_point = self.map_to_image_display(global_pos)
+                self.bezier_current_pos = Coordinate(self.last_point.x(), self.last_point.y())
+                self.bezier_manager.update(self.bezier_current_pos)
 
     def wheelEvent(self, event):
         """Handle mouse scroll events."""

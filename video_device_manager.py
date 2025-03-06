@@ -9,16 +9,26 @@ class VideoDeviceManager():
         self.get_avail_devices()
         
     def get_avail_devices(self):
-        print("""      
-              Finding video devices available...
-      .-------------------.
-     /--_--.------.------/|
-     |     |__||__| [==] ||
-     |     | .--. | '''' ||
-     |     || () ||      ||
-     |     | `--' |      |/
-     `-----'------'------'  Art by Joan Stark
-     """)
+    #     print("""      
+    #           Finding video devices available...
+    #   .-------------------.
+    #  /--_--.------.------/|
+    #  |     |__||__| [==] ||
+    #  |     | .--. | '''' ||
+    #  |     || () ||      ||
+    #  |     | `--' |      |/
+    #  `-----'------'------'  Art by Joan Stark
+    #  """)
+        print("""
+    ##     ####################      
+    #      #######     ##########    ##
+###     ##########         ###### #### 
+           ####### LIVE PYXEL ### #### 
+    ##     #######         ###### #### 
+           #######     ##########    ##
+ ##     #######################    
+
+              """)
         available_cameras = []
         for device_index in range(4):
             cap = cv2.VideoCapture(device_index)
@@ -67,14 +77,19 @@ class VideoDeviceManager():
         if not os_settings["images_path"]:
             QtWidgets.QMessageBox.critical(None, "Annotation aborted!", f"A directory path couldn't determined. Please create or load a project and try again")
         else:
-            uuid_ext = str(uuid.uuid4())[:8]
-            image_name = "img_"+uuid_ext+".png"
-            image_name = jn(os_settings["images_path"],image_name)
-            mask_name = "msk_"+uuid_ext+".png"
-            mask_name = jn(os_settings["masks_path"],mask_name)
-            cv2.imwrite(image_name,img)
-            cv2.imwrite(mask_name,copy_mask)
-            display_settings["mask"] = np.zeros_like(display_settings["mask"])
+            # evaluate if the mask is empty
+            if np.max(copy_mask[:,:,0:3])!=0:
+                uuid_ext = str(uuid.uuid4())[:8]
+                image_name = "img_"+uuid_ext+".png"
+                image_name = jn(os_settings["images_path"],image_name)
+                mask_name = "msk_"+uuid_ext+".png"
+                mask_name = jn(os_settings["masks_path"],mask_name)
+                cv2.imwrite(image_name,img)
+                cv2.imwrite(mask_name,copy_mask)
+                display_settings["mask"] = np.zeros_like(display_settings["mask"])
+            else:
+                QtWidgets.QMessageBox.critical(None, "Annotation aborted!", f"Please draw a mask before saving the image")
+
 
 # if __name__ == "__main__":
 #     get_image_from_webcam()

@@ -40,16 +40,9 @@ cameraH = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 cameraRatio = cameraH/cameraW #what proportion of the width is the height (e.g. for 1920 x 1080, it's 0.56)
 
 
-# Make the dimensions of the window 80% of the user's screen
-# W = int(display_info.current_w*args.res)
-# H = int(W*cameraRatio)
+# Define the dimensions of the screen
 W = 1920
 H = 1080
-# print(cameraW, cameraH)
-# print(W,H)
-# SCREEN = (W,H)
-# display = pygame.display.set_mode(SCREEN)
-# Initialize webcam
 
 
 # DD LATERAL_PADDING_MENU
@@ -77,4 +70,5 @@ display_settings = {"image":None, "mask":None}
 
 cursor_settings = {"in_display":False}
 
-os_settings = {"directory":"", "config":"", "masks_path":"","images_path":""}
+# substractive mode turns the brush or tool into an eraser
+os_settings = {"directory":"", "config":"", "masks_path":"","images_path":"","substractive_mode":False}

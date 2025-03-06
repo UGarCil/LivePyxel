@@ -15,7 +15,7 @@ from warning_dialog_delete import Ui_Dialog as Ui_Dialog_Delete
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("LivePyxel")
         MainWindow.resize(1536, 672)
         MainWindow.setMinimumSize(QtCore.QSize(1536, 672))
         MainWindow.setStyleSheet("background-color: rgb(30, 30, 30);\n"
@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
         
         # Paint tool buttons
         self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setMaximumSize(QtCore.QSize(120, 60))
+        self.widget.setMaximumSize(QtCore.QSize(260, 60))
         self.widget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.widget.setAutoFillBackground(False)
         self.widget.setObjectName("widget")
@@ -242,6 +242,30 @@ class Ui_MainWindow(object):
         self.bezier_button.setObjectName("bezier_button")
         self.horizontalLayout_2.addWidget(self.bezier_button)
         self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # isAdditive button
+        self.isAdditive_button = QtWidgets.QPushButton(self.widget)
+        self.isAdditive_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.isAdditive_button.setText("")        
+        self.isAdditive_button_on_icon = QtGui.QIcon()
+        self.isAdditive_button_on_icon.addPixmap(QtGui.QPixmap("icons/additive_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.isAdditive_button_off_icon = QtGui.QIcon()
+        self.isAdditive_button_off_icon.addPixmap(QtGui.QPixmap("icons/additiveOFF_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.isAdditive_button.setIcon(self.isAdditive_button_on_icon)
+        self.isAdditive_button.setIconSize(QtCore.QSize(30, 30))
+        self.isAdditive_button.setObjectName("isAdditive_button")
+        self.horizontalLayout_2.addWidget(self.isAdditive_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # # Bucket button
+        # self.bezier_button = QtWidgets.QPushButton(self.widget)
+        # self.bezier_button.setMaximumSize(QtCore.QSize(40, 40))
+        # self.bezier_button.setText("")
+        # icon2 = QtGui.QIcon()
+        # icon2.addPixmap(QtGui.QPixmap("icons/bezier_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        # self.bezier_button.setIcon(icon2)
+        # self.bezier_button.setIconSize(QtCore.QSize(30, 30))
+        # self.bezier_button.setObjectName("bezier_button")
+        # self.horizontalLayout_2.addWidget(self.bezier_button)
+        # self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -253,7 +277,7 @@ class Ui_MainWindow(object):
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "LivePyxel"))
         self.label_select_0.setText(_translate("MainWindow", "TextLabel"))
         self.label_6.setText(_translate("MainWindow", "Mask opacity"))
         self.btn_add.setText(_translate("MainWindow", "Add +"))
@@ -498,16 +522,16 @@ class Ui_MainWindow(object):
 class WebcamWidget(QtWidgets.QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
+        custom_cursor_pixmap_polygon = QtGui.QPixmap("./icons/bright_cross_cursor.png")  # Ensure you have a bright cursor image
+        self.custom_cursor_polygon = QtGui.QCursor(custom_cursor_pixmap_polygon)
         self.setMouseTracking(True)
 
     def enterEvent(self, event):
         """Hide the cursor when the mouse enters the widget."""
         if brush_settings["is_brush_mode"] == "brush":
             self.setCursor(Qt.BlankCursor)
-        elif brush_settings["is_brush_mode"] == "polygon":
-            custom_cursor_pixmap = QtGui.QPixmap("./icons/bright_cross_cursor.png")  # Ensure you have a bright cursor image
-            custom_cursor = QtGui.QCursor(custom_cursor_pixmap)
-            self.setCursor(custom_cursor)
+        elif brush_settings["is_brush_mode"] == "polygon" or brush_settings["is_brush_mode"] == "bezier":
+            self.setCursor(self.custom_cursor_polygon)
         cursor_settings["in_display"] = True
 
     def leaveEvent(self, event):

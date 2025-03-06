@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+\usepackage{tocloft}
+
+% variables used throughout the document
+\newcommand{\progname}{LivePyxel}
+
+% Increase font size for the table of contents entries
+\renewcommand{\cftsecfont}{\large}
+\renewcommand{\cftsecpagefont}{\large}
+
+% You can also make the title "Contents" larger
+\renewcommand{\cfttoctitlefont}{\Large\bfseries}
+
+\title{\progname Documentation}
+\author{Uriel Garcilazo}
+\date{November 2024}
+
+\begin{document}
+
+\maketitle
+
+% Add table of contents
+\tableofcontents
+\newpage
+
+\section{Introduction}
+The process of building annotations for image-segmentation datasets is long, tedious and often expensive.
+Domain experts may be willing to build the annotations, but may lack the time resources to familiarize themselves with complex GUIs.
+\progname is a Python library that integrates a user's webcam with an annotation tool. 
+
+\section{Features}
+The main features of \progname are:
+\begin{itemize}
+    \item Real-time image segmentation.
+    \item User-friendly interface.
+    \item Webcam integration.
+    \item Modular in design for easy add on installation
+\end{itemize}
+
+\section{Installation}
+Installation instructions go here.
+
+\section{Usage}
+How to use \progname.
+
+\section{API Reference}
+API documentation.
+
+\section{Examples}
+Example usage scenarios.
+
+\section{Troubleshooting}
+Common issues and solutions.
+
+\section{Conclusion}
+Concluding remarks.
+
+\section{Specifications}
+The following technical specifications declare the scope and modular integration of the \progname library.
+
+\subsection{Modules}
+The core functionality of the \progname software is encapsulated within the following modules:
+\begin{itemize}
+    \item \texttt{constants} - Initializes constants and structures accessed across modules.
+    \item \texttt{ImageAnnotator} - Handles annotation, video capture and UI integration.
+    \item \texttt{Bezierman} - Bezier spline manager.
+    \item \texttt{Polyman} - Polygon tool manager.
+    \item \texttt{UIMainWindow} - Contains the main user interface elements.
+    \item \texttt{VideoDeviceManager} - Handles video device initialization and image saving.
+\end{itemize}
+\end{document}

@@ -36,7 +36,8 @@ class Polyman():
             points = [(pt.x, pt.y) for pt in self.current_polygon["POINTS"]]
             points = np.array([[p.x, p.y] for p in self.current_polygon["POINTS"]], np.int32)
             points = points.reshape((-1, 1, 2))
-            cv2.fillPoly(display_settings["mask"], [points], color=brush_settings["color"])
+            fill_color = (0,0,0) if os_settings["substractive_mode"] else brush_settings["color"]
+            cv2.fillPoly(display_settings["mask"], [points], color=fill_color)
             # if self.current_polygon not in self.lopolygon:
             #     self.lopolygon.append(self.current_polygon)
             self.current_polygon = {"DONE":False, "POINTS":[], "COLOR":None}
