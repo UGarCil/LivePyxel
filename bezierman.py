@@ -69,7 +69,7 @@ class Bu():
 
         
         for idx,point in enumerate(self.saved_points[:-1]):
-            cv2.line(preview_image, point, self.saved_points[idx+1], color=brush_settings["color"], thickness=1)
+            cv2.line(preview_image, point, self.saved_points[idx+1], color=brush_settings["color"], thickness=brush_settings["thickness"])
             # cv2.circle(preview_image, (point.x, point.y), 2, brush_settings["color"], -1)
         
         if self.draw_laterals:
@@ -79,7 +79,7 @@ class Bu():
             o = my - self.pB.y
             radius = (a**2 + o**2)**0.5
             # If the radius over 5, let's assume the user wants to update pG, in which case we just calculate the inverse pG_inverse
-            if radius > 4:
+            if radius > 2:
                 # get the angle between the point B and the position of the cursor
                 angle = math.atan2(o,a)
                 # calculate the position in x,y for the pointG and pointG_inverse, using the distance pB-cursor as radius
@@ -104,10 +104,10 @@ class Bu():
                 # self.pG = Coordinate(self.pG[0],self.pG[1])
                 self.pG_inverse = Coordinate(int(x_G_inverse),int(y_G_inverse))
 
-            cv2.line(preview_image, self.pB, self.pG, color=brush_settings["color"], thickness=1)
+            cv2.line(preview_image, self.pB, self.pG, color=brush_settings["color"], thickness=brush_settings["thickness"])
             cv2.circle(preview_image, self.pG, 2, brush_settings["color"], -1)
             
-            cv2.line(preview_image, self.pB, self.pG_inverse, color=brush_settings["color"], thickness=1)
+            cv2.line(preview_image, self.pB, self.pG_inverse, color=brush_settings["color"], thickness=brush_settings["thickness"])
             cv2.circle(preview_image, self.pG_inverse, 2, brush_settings["color"], -1)
 
     # FD. savePoint()
@@ -190,7 +190,7 @@ class Bezierman():
                 bu.pG = last_bu.pG_inverse
                 self.lobu.append(bu)
     
-    def finishPolygon(self):
+    def finishBezier(self):
         if brush_settings["is_brush_mode"] == "bezier":
             final_points = []
             for bu in self.lobu[:-1]:
@@ -198,8 +198,27 @@ class Bezierman():
             # points = [(pt.x, pt.y) for pt in self.current_polygon["POINTS"]]
             points = np.array([[p.x, p.y] for p in final_points], np.int32)
             points = points.reshape((-1, 1, 2))
-            fill_color = (0,0,0) if os_settings["substractive_mode"] else brush_settings["color"]
-            cv2.fillPoly(display_settings["mask"], [points], color=fill_color)
+            if os_settings["substractive_mode"]:
+                # create a new mask from the selected polygon
+                _boolean_mask = np.zeros_like(display_settings["list_of_mask"][-1])
+                # fill it with the color (255,255,255) to erase the pixels at a later stage
+                cv2.fillPoly(_boolean_mask, [points], color=(255,255,255))
+                # invert the boolean mask so we keep everything EXCEPT the polygon
+                inverted_mask = cv2.bitwise_not(_boolean_mask)
+                # iterate over all masks erasing the pixels delimited by this mask, depending upon user's selection
+                if os_settings["top_layer_edit"]:
+                    display_settings["list_of_mask"][-1] = cv2.bitwise_and(display_settings["list_of_mask"][-1], inverted_mask)
+                else:
+                    for idx, mask in enumerate(display_settings["list_of_mask"]):
+                        display_settings["list_of_mask"][idx] = cv2.bitwise_and(mask, inverted_mask)
+            else:
+                
+                
+                _mask = add_empty_mask()
+                # fill the color with the brush color selected by the user and save it, then create a new mask
+                cv2.fillPoly(_mask, [points], color=brush_settings["color"])
+                # display_settings["list_of_mask"].append(np.zeros_like(display_settings["list_of_mask"][-1]))
+                
             # self.current_polygon = {"DONE":False, "POINTS":[], "COLOR":None}
             self.lobu = []
             

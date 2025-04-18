@@ -182,7 +182,67 @@ class Ui_MainWindow(object):
         self.menuTutorials.addAction(self.tutorials_action)
         self.tutorials_action.triggered.connect(lambda: os.startfile("https://ugarcil.github.io/LivePyxel/"))
         
+        # ##############################################
+        # Create a container widget for the new buttons
+        self.button_container = QtWidgets.QWidget(self.widget_2)
+        self.button_container.setMaximumSize(QtCore.QSize(80, 16777215))  # Max width of 80
+        self.button_container.setObjectName("button_container")
+
+        # Create a vertical layout for the container
+        self.vertical_layout = QtWidgets.QVBoxLayout(self.button_container)
+        self.vertical_layout.setContentsMargins(0, 0, 0, 0)  # Remove margins if desired
+        self.vertical_layout.setSpacing(2)  # Adjust spacing between elements
+
+        # Create a horizontal layout for the buttons
+        self.button_row = QtWidgets.QHBoxLayout()
+        self.button_row.setContentsMargins(0, 0, 0, 0)
+        self.button_row.setSpacing(2)
+
+        # Create and add the first button
+        self.prev_btn = QtWidgets.QPushButton(self.button_container)
+        self.prev_btn.setMaximumSize(QtCore.QSize(40, 40))
+        self.prev_btn.setObjectName("prev_btn")
+        self.prev_btn.setText("")        
+        icon_binmask = QtGui.QIcon()
+        icon_binmask.addPixmap(QtGui.QPixmap("icons/prev_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.prev_btn.setIcon(icon_binmask)
+        self.prev_btn.setIconSize(QtCore.QSize(20, 20))
+        self.button_row.addWidget(self.prev_btn)
+
+        # Create and add the second button
+        self.next_btn = QtWidgets.QPushButton(self.button_container)
+        self.next_btn.setMaximumSize(QtCore.QSize(40, 40))
+        self.next_btn.setObjectName("next_btn")
+        self.next_btn.setText("")        
+        icon_binmask = QtGui.QIcon()
+        icon_binmask.addPixmap(QtGui.QPixmap("icons/next_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.next_btn.setIcon(icon_binmask)
+        self.next_btn.setIconSize(QtCore.QSize(20, 20))
+        self.button_row.addWidget(self.next_btn)
+
+        # Add the button row to the vertical layout
+        self.vertical_layout.addLayout(self.button_row)
+
+        # Create and add the number input field
+        self.number_input = QtWidgets.QLineEdit(self.button_container)
+        self.number_input.setMaximumSize(QtCore.QSize(80, 25))  # Width matches container
+        self.number_input.setAlignment(QtCore.Qt.AlignCenter)
+        self.number_input.setValidator(QtGui.QIntValidator())  # Only allow integers
+        self.number_input.setObjectName("number_input")
+        self.number_input.setPlaceholderText("0")  # Default placeholder text
+        self.vertical_layout.addWidget(self.number_input)
+
+        # Add the container widget to the main grid layout
+        self.gridLayout.addWidget(self.button_container, 0, 3, 1, 1)
         
+        # #####################################################
+        self.btn_switch_webcam = QtWidgets.QPushButton(self.widget_2)
+        self.btn_switch_webcam.setMaximumSize(QtCore.QSize(120, 16777215))
+        self.btn_switch_webcam.setStyleSheet("background-color: rgb(70, 60, 80);")
+        self.btn_switch_webcam.setObjectName("btn_switch_webcam")
+        self.gridLayout.addWidget(self.btn_switch_webcam, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.widget_2, 0, 2, 1, 1)
+
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -205,7 +265,7 @@ class Ui_MainWindow(object):
         
         # Paint tool buttons
         self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setMaximumSize(QtCore.QSize(260, 60))
+        self.widget.setMaximumSize(QtCore.QSize(500, 60))
         self.widget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.widget.setAutoFillBackground(False)
         self.widget.setObjectName("widget")
@@ -255,18 +315,64 @@ class Ui_MainWindow(object):
         self.isAdditive_button.setObjectName("isAdditive_button")
         self.horizontalLayout_2.addWidget(self.isAdditive_button)
         self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # isTopLayerOnly button
+        self.isTopLayerOnly_button = QtWidgets.QPushButton(self.widget)
+        self.isTopLayerOnly_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.isTopLayerOnly_button.setText("")        
+        self.isTopLayerOnly_button_on_icon = QtGui.QIcon()
+        self.isTopLayerOnly_button_on_icon.addPixmap(QtGui.QPixmap("./icons/topmask_ON_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.isTopLayerOnly_button_off_icon = QtGui.QIcon()
+        self.isTopLayerOnly_button_off_icon.addPixmap(QtGui.QPixmap("./icons/topmask_OFF_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.isTopLayerOnly_button.setIcon(self.isTopLayerOnly_button_on_icon)
+        self.isTopLayerOnly_button.setIconSize(QtCore.QSize(30, 30))
+        self.isTopLayerOnly_button.setObjectName("isTopLayerOnly_button")
+        self.horizontalLayout_2.addWidget(self.isTopLayerOnly_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
         # # Bucket button
-        # self.bezier_button = QtWidgets.QPushButton(self.widget)
-        # self.bezier_button.setMaximumSize(QtCore.QSize(40, 40))
-        # self.bezier_button.setText("")
-        # icon2 = QtGui.QIcon()
-        # icon2.addPixmap(QtGui.QPixmap("icons/bezier_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        # self.bezier_button.setIcon(icon2)
-        # self.bezier_button.setIconSize(QtCore.QSize(30, 30))
-        # self.bezier_button.setObjectName("bezier_button")
-        # self.horizontalLayout_2.addWidget(self.bezier_button)
-        # self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
-
+        self.bucket_button = QtWidgets.QPushButton(self.widget)
+        self.bucket_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.bucket_button.setText("")        
+        icon_bucket = QtGui.QIcon()
+        icon_bucket.addPixmap(QtGui.QPixmap("icons/bucket_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.bucket_button.setIcon(icon_bucket)
+        self.bucket_button.setIconSize(QtCore.QSize(30, 30))
+        self.bucket_button.setObjectName("bucket_button")
+        self.horizontalLayout_2.addWidget(self.bucket_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # # binmask button
+        self.binmask_button = QtWidgets.QPushButton(self.widget)
+        self.binmask_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.binmask_button.setText("")        
+        icon_binmask = QtGui.QIcon()
+        icon_binmask.addPixmap(QtGui.QPixmap("icons/binmask_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.binmask_button.setIcon(icon_binmask)
+        self.binmask_button.setIconSize(QtCore.QSize(30, 30))
+        self.binmask_button.setObjectName("binmask_button")
+        self.horizontalLayout_2.addWidget(self.binmask_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # # OpenFolder button
+        self.openFolder_button = QtWidgets.QPushButton(self.widget)
+        self.openFolder_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.openFolder_button.setText("")        
+        icon_bucket = QtGui.QIcon()
+        icon_bucket.addPixmap(QtGui.QPixmap("icons/openFolder_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.openFolder_button.setIcon(icon_bucket)
+        self.openFolder_button.setIconSize(QtCore.QSize(30, 30))
+        self.openFolder_button.setObjectName("openFolder_button")
+        self.horizontalLayout_2.addWidget(self.openFolder_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # Edit images button
+        self.editMode_button = QtWidgets.QPushButton(self.widget)
+        self.editMode_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.editMode_button.setText("")        
+        icon_binmask = QtGui.QIcon()
+        icon_binmask.addPixmap(QtGui.QPixmap("icons/editFolder_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.editMode_button.setIcon(icon_binmask)
+        self.editMode_button.setIconSize(QtCore.QSize(30, 30))
+        self.editMode_button.setObjectName("editMode_button")
+        self.horizontalLayout_2.addWidget(self.editMode_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         
@@ -303,9 +409,6 @@ class Ui_MainWindow(object):
         # get the names of the color, label and edit buttons based on the value of index
         suffix = str(len(self.lobutton_label_blocks))
         
-        
-        
-            
         
         # Create a new widget (btn_block)
         btn_block = QtWidgets.QWidget(self.scrollAreaWidgetContents_3)
@@ -404,7 +507,6 @@ class Ui_MainWindow(object):
         
     def traverse_select_buttons(self,button):
         global brushColor
-        # pass
         buttonStyle = button.styleSheet()
         buttonStyle = buttonStyle.replace(" ","")
         if "background-color:rgb" in buttonStyle:
@@ -418,12 +520,15 @@ class Ui_MainWindow(object):
             string_color = [colors[2],colors[1],colors[0]]
             # print(string_color)
             brush_settings["color"] = string_color
-    
+            # print(brush_settings["color"])
     def createSubfolders(self):
         os_settings["masks_path"] = jn(os_settings["directory"],"masks")
         os_settings["images_path"] = jn(os_settings["directory"],"images")
-        os.mkdir(os_settings["masks_path"])
-        os.mkdir(os_settings["images_path"])
+        if not os.path.exists(os_settings["masks_path"]):
+            os.mkdir(os_settings["masks_path"])
+        if not os.path.exists(os_settings["images_path"]):
+            os.mkdir(os_settings["images_path"])
+        
         
         
     
@@ -435,7 +540,7 @@ class Ui_MainWindow(object):
             colors = stylesheet[1:-1].split(",")
             colors = [int(c) for c in colors]
             # turn it into bgr, which is cv2 default
-            colors = (colors[2],colors[1],colors[0])
+            # colors = (colors[0],colors[1],colors[2])
             return colors
         
         
@@ -463,6 +568,7 @@ class Ui_MainWindow(object):
         options = QtWidgets.QFileDialog.Options()
         directory = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Folder", "", options=options)
         if directory:
+            # !!! system shouldn't be set before asking user to work around config.json file (i.e. no os_settings)
             os_settings["directory"] = directory
             os_settings["config"] = jn(directory, "config.json")
             
@@ -499,6 +605,13 @@ class Ui_MainWindow(object):
                     config = json.load(jsonfile)
                     labels = config.get("labels", [])
                     colors = config.get("colors", [])
+
+                # cv2 understands colors as  BGR
+                # bgr_colors = []
+                # for color in colors:
+                #     # Swap R and B channels (assuming color is [R,G,B])
+                #     bgr_color = [color[2], color[1], color[0]]
+                #     bgr_colors.append(bgr_color)
                     
                 self.clear_layout()
                 for idx in range(len(labels)):

@@ -12,7 +12,7 @@ from constants import *
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog, label, color_btn):
-        self.mask = display_settings["mask"]
+        self.mask = display_settings["list_of_mask"][-1]
         self.label_target = label 
         self.color_btn = color_btn
         self.Dialog = Dialog
@@ -96,10 +96,11 @@ class Ui_Dialog(object):
             
             # bgr_alpha is needed for the pixel values in the mask, as understood by cv2
             new_bgr_alpha = (*new_bgr,255)
-            # replace the pixels with the previous color value for the new color in RGB format
-            filtered_rgb_from_mask = self.mask[...,:3] #filter for all the values expect alpha channel
-            mask_indices = (filtered_rgb_from_mask == previous_color).all(axis=-1)  # Find matching pixels
-            self.mask[mask_indices] = new_bgr_alpha  # Update those pixels with the new color
+            for mask in display_settings["list_of_mask"]:
+                # replace the pixels with the previous color value for the new color in RGB format
+                filtered_rgb_from_mask = mask[...,:3] #filter for all the values expect alpha channel
+                mask_indices = (filtered_rgb_from_mask == previous_color).all(axis=-1)  # Find matching pixels
+                mask[mask_indices] = new_bgr_alpha  # Update those pixels with the new color
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

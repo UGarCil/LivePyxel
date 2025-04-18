@@ -80,9 +80,10 @@ class Ui_Dialog(object):
         # bgr_alpha is needed for the pixel values in the mask, as understood by cv2
         new_bgr_alpha = (0,0,0,0)
         # replace the pixels with the previous color value for the new color in RGB format
-        filtered_rgb_from_mask = display_settings["mask"][...,:3] #filter for all the values expect alpha channel
-        mask_indices = (filtered_rgb_from_mask == previous_color).all(axis=-1)  # Find matching pixels
-        display_settings["mask"][mask_indices] = new_bgr_alpha  # Update those pixels with the new color
+        for mask in display_settings["list_of_mask"]:
+            filtered_rgb_from_mask = mask[...,:3] #filter for all the values expect alpha channel
+            mask_indices = (filtered_rgb_from_mask == previous_color).all(axis=-1)  # Find matching pixels
+            mask[mask_indices] = new_bgr_alpha  # Update those pixels with the new color
         
 
         # Refresh the layout after the widget is removed
