@@ -198,6 +198,10 @@ class Bezierman():
             # points = [(pt.x, pt.y) for pt in self.current_polygon["POINTS"]]
             points = np.array([[p.x, p.y] for p in final_points], np.int32)
             points = points.reshape((-1, 1, 2))
+            # evaluate if there are any points to annotate
+            if len(points) == 0:
+                return
+
             if os_settings["substractive_mode"]:
                 # create a new mask from the selected polygon
                 _boolean_mask = np.zeros_like(display_settings["list_of_mask"][-1])

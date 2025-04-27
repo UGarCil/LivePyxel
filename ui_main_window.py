@@ -378,7 +378,7 @@ class Ui_MainWindow(object):
         
         
         self.lobutton_label_blocks = [self.label_block_0]
-        # self.brush_color = (0,255,0)
+        brush_settings["color"] = [0, 255, 0, 0]
 
         
     def retranslateUi(self, MainWindow):
@@ -519,7 +519,7 @@ class Ui_MainWindow(object):
             colors = [int(c) for c in string_color]
             string_color = [colors[2],colors[1],colors[0]]
             # print(string_color)
-            brush_settings["color"] = string_color
+            brush_settings["color"] = tuple(string_color) + (0,)
             # print(brush_settings["color"])
     def createSubfolders(self):
         os_settings["masks_path"] = jn(os_settings["directory"],"masks")

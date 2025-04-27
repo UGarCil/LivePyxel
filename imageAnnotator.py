@@ -107,7 +107,7 @@ class ImageAnnotator(QMainWindow):
         if text:  # Check if the input is not empty
             try:
                 number = int(text)
-                if os_settings["config"] != "":
+                if os_settings["config"] != "" and self.editorManager is not None:
                     update_text = self.editorManager.set_current_image_index(number)  # text updated after clamping to max index
                     number_input.setText(str(update_text))  # Update the input field with the clamped value
                 # self.update_index_image(number)  # Call your helper method
@@ -383,12 +383,6 @@ class ImageAnnotator(QMainWindow):
         if cursor_settings["in_display"]:
             if brush_settings["is_brush_mode"] == "brush":
                 # ################## <BRUSH MOUSE PRESS ENTER EVENT> #######################
-                # Handle the counter to determine when to create a new mask for a brush stroke
-                # if not os_settings["substractive_mode"]:
-                #     if brush_settings["brush_strokes_in_memory_counter"] % BRUSH_MAX_MEM == 0:
-                #         _new_mask = np.zeros_like(display_settings["image"])
-                #         display_settings["list_of_mask"].append(_new_mask)
-                #     brush_settings["brush_strokes_in_memory_counter"] += 1
                 
                 if event.button() == Qt.LeftButton:
                     global_pos = event.globalPos()  # Get global position
@@ -436,7 +430,7 @@ class ImageAnnotator(QMainWindow):
                 elif event.buttons() & Qt.LeftButton and os_settings["substractive_mode"]:
                     # Erase by drawing over the mask with a transparent color
                     cv2.line(display_settings["list_of_mask"][-1], (self.last_point.x(), self.last_point.y()), 
-                            (self.current_pos.x(), self.current_pos.y()), (0,0,0), brush_settings["size"])
+                            (self.current_pos.x(), self.current_pos.y()), (255,255,255,255), brush_settings["size"])
                     self.last_point = self.current_pos
                     # display_settings["list_of_mask"].append(np.zeros_like(display_settings["list_of_mask"][-1]))
                 ############# END: ENCAPSULATE BRUSH INTO OBJECT ###################
@@ -466,12 +460,16 @@ class ImageAnnotator(QMainWindow):
                         inverted_mask = cv2.bitwise_not(_boolean_mask)      
                         
                         if os_settings["top_layer_edit"]:
-                            # Modify the mask on the top layer only
-                            display_settings["list_of_mask"][-1] = cv2.bitwise_and(display_settings["list_of_mask"][-1], inverted_mask)
+                            # Modify the mask on the top layer only (second to last because we added a new layer)
+                            display_settings["list_of_mask"][-2] = cv2.bitwise_and(display_settings["list_of_mask"][-2], inverted_mask)
+                            display_settings["list_of_mask"].pop(-1)  # Remove the last mask
+                            _ = add_empty_mask()  # Add a new empty mask to the list
+                            
                         else:
                             # iterate over all masks erasing the pixels delimited by this mask
                             for idx, mask in enumerate(display_settings["list_of_mask"]):
                                 display_settings["list_of_mask"][idx] = cv2.bitwise_and(mask, inverted_mask)
+                        
                     ############# END: ENCAPSULATE BRUSH INTO OBJECT ###################
 
             if brush_settings["is_brush_mode"] == "bezier":
@@ -529,21 +527,6 @@ class ImageAnnotator(QMainWindow):
             event.ignore()  # Ignore the close event, keeping the window open
         
         
-    # def enterEvent(self, event):
-        
-    #     """Hide the cursor when it enters the imageDisplay area."""
-    #     if self.mainUI.imageDisplay.underMouse():
-    #         print("cursor in image display!")
-    #         cursor_settings["in_display"] = True
-    #         self.mainUI.imageDisplay.setCursor(Qt.BlankCursor)
-        
-            
-    # def leaveEvent(self, event):
-    #     """Restore the cursor when it leaves the imageDisplay area."""
-    #     self.mainUI.imageDisplay.setCursor(Qt.ArrowCursor)  # or any other cursor type you want
-    #     print("cursor not in image display!")
-    #     cursor_settings["in_display"] = False
-
 if __name__ == "__main__":
     # Enable High DPI scaling
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)

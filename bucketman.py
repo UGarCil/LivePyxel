@@ -51,8 +51,8 @@ class Bucketman():
             target_mask[binary_mask] = (0, 0, 0, 0)
         else:
             # In normal mode, we set the color to the currently selected color
-            r, g, b = brush_settings["color"]
-            target_mask[binary_mask] = (r, g, b, 255)
+            # r, g, b = brush_settings["color"]
+            target_mask[binary_mask] = brush_settings["color"]
         
         # Update the mask in the list
         display_settings["list_of_mask"][target_mask_index] = target_mask
