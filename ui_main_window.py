@@ -106,23 +106,38 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_3)
         self.gridLayout_2.addWidget(self.scrollArea, 2, 0, 1, 1)
         
-        # Brush slider Settings
+        # Brush slider Settings — using manual geometry
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
+        self.frame.setMinimumSize(QtCore.QSize(300, 80))  # same as scroll panel
+        self.frame.setMaximumSize(QtCore.QSize(300, 80))  # lock width to match scroll area
+        self.frame.setStyleSheet("background-color: transparent;")
+
+        # First label and slider (e.g., Mask Opacity)
+        self.label_6 = QtWidgets.QLabel(self.frame)
+        self.label_6.setGeometry(QtCore.QRect(10, 0, 200, 16))  # wider label
+        self.label_6.setText("Mask opacity")
+        self.label_6.setObjectName("label_6")
+
         self.brush_slider = QtWidgets.QSlider(self.frame)
-        self.brush_slider.setGeometry(QtCore.QRect(10, 20, 281, 21))
+        self.brush_slider.setGeometry(QtCore.QRect(10, 20, 280, 20))
         self.brush_slider.setOrientation(QtCore.Qt.Horizontal)
         self.brush_slider.setObjectName("brush_slider")
-        self.label_6 = QtWidgets.QLabel(self.frame)
-        self.label_6.setGeometry(QtCore.QRect(120, 0, 81, 16))
-        self.label_6.setObjectName("label_6")
-        # self.brush_tool_btn = QtWidgets.QPushButton(self.frame) 
-        # self.brush_tool_btn.setStyleSheet("background-color: rgb(80, 80, 80);")
-        # self.brush_tool_btn.setObjectName("brush_tool_btn")
-        # icon_brush_tool = QtGui.QIcon()
-        # icon_brush_tool.addPixmap(QtGui.QPixmap("./icons/brush_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+
+        # Second label and slider (e.g., Binary Mask Threshold)
+        self.label_7 = QtWidgets.QLabel(self.frame)
+        self.label_7.setGeometry(QtCore.QRect(10, 40, 200, 16))
+        self.label_7.setText("binary mask threshold")
+        self.label_7.setObjectName("label_7")
+
+        self.binarythres_slider = QtWidgets.QSlider(self.frame)
+        self.binarythres_slider.setGeometry(QtCore.QRect(10, 60, 280, 20))
+        self.binarythres_slider.setOrientation(QtCore.Qt.Horizontal)
+        self.binarythres_slider.setObjectName("binarythres_slider")
+
+        # Add to layout
         self.gridLayout_2.addWidget(self.frame, 0, 0, 1, 1)
         
         
@@ -360,6 +375,17 @@ class Ui_MainWindow(object):
         self.openFolder_button.setIconSize(QtCore.QSize(30, 30))
         self.openFolder_button.setObjectName("openFolder_button")
         self.horizontalLayout_2.addWidget(self.openFolder_button)
+        self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
+        # # Freehand button
+        self.freehand_button = QtWidgets.QPushButton(self.widget)
+        self.freehand_button.setMaximumSize(QtCore.QSize(40, 40))
+        self.freehand_button.setText("")        
+        icon_bucket = QtGui.QIcon()
+        icon_bucket.addPixmap(QtGui.QPixmap("icons/freehand_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.freehand_button.setIcon(icon_bucket)
+        self.freehand_button.setIconSize(QtCore.QSize(30, 30))
+        self.freehand_button.setObjectName("freehand_button")
+        self.horizontalLayout_2.addWidget(self.freehand_button)
         self.gridLayout_2.addWidget(self.widget, 1, 2, 1, 1)
         # Edit images button
         self.editMode_button = QtWidgets.QPushButton(self.widget)

@@ -5,6 +5,7 @@ from polyman import Polyman
 from bezierman import Bezierman
 from bucketman import Bucketman
 from binaman import Binman
+from freehandman import Freehandman
 import platform, subprocess
 # C.D. IMAGE_ANNOTATOR
 # This is the main class that handles the image annotation tool. It is responsible for the following:
@@ -22,6 +23,7 @@ class ImageAnnotator(QMainWindow):
         self.polygon_manager = None
         self.bezier_manager = None
         self.bezier_current_pos = None
+        self.freehand_current_pos = None
         self.binary_mask = None
         self.mainUI = Ui_MainWindow()
         self.bucket_manager = None
@@ -42,12 +44,15 @@ class ImageAnnotator(QMainWindow):
         # initialize the brush settings
         self.brush_preview_color = (0, 150, 0)  # Darker green for preview
         self.mainUI.brush_slider.setValue(70)
+        self.mainUI.binarythres_slider.setValue(127) #min 0 and max 255
         brush_settings["opacity"] = self.mainUI.brush_slider.value()
+        brush_settings["binary_mask_thres"] = self.mainUI.binarythres_slider.value()
         
 
         # Button webcam
         self.mainUI.btn_switch_webcam.clicked.connect(lambda: self.deviceManager.change_video_device(self))
         self.mainUI.brush_slider.valueChanged.connect(self.updateSliderBrushStrength)
+        self.mainUI.binarythres_slider.valueChanged.connect(self.updateSliderBinaryThreshold)
         self.mainUI.btn_annotate.clicked.connect(self.save_image_handler)
         self.mainUI.btn_add.clicked.connect(lambda: self.mainUI.add_btn_block(label_text="New Label"))
         self.mainUI.btn_capture.clicked.connect(self.captureManager)
@@ -56,6 +61,7 @@ class ImageAnnotator(QMainWindow):
         self.mainUI.bezier_button.clicked.connect(lambda: self.update_paint_mode("bezier"))
         self.mainUI.bucket_button.clicked.connect(lambda: self.update_paint_mode("bucket"))
         self.mainUI.binmask_button.clicked.connect(lambda: self.update_paint_mode("binmask"))
+        self.mainUI.freehand_button.clicked.connect(lambda: self.update_paint_mode("freehand"))
         self.mainUI.isAdditive_button.clicked.connect(self.update_isAdditive_mode)
         self.mainUI.isTopLayerOnly_button.clicked.connect(self.update_isTopLayerOnly_button_mode)
         self.mainUI.openFolder_button.clicked.connect(self.openFolder)
@@ -214,6 +220,9 @@ class ImageAnnotator(QMainWindow):
             self.polygon_manager = Polyman()
         elif brush_settings["is_brush_mode"] == "bezier":
             self.bezier_manager = Bezierman()
+        elif brush_settings["is_brush_mode"] == "freeman":
+            self.freehand_manager = Freehandman()
+        
 
     def handle_undo(self):
         # if polygon mode
@@ -221,12 +230,16 @@ class ImageAnnotator(QMainWindow):
             self.polygon_manager.pop_last_point()
         elif brush_settings["is_brush_mode"] == "bezier":
             self.bezier_manager.pop_last_point()
+        elif brush_settings["is_brush_mode"] == "freehand":
+            self.freehand_manager.pop_last_point()
 
     # Update the tool MODE
     def update_paint_mode(self,mode:str):
         brush_settings["is_brush_mode"] = mode
         if brush_settings["is_brush_mode"] == "polygon":
             self.polygon_manager = Polyman()
+        elif brush_settings["is_brush_mode"] == "freehand":
+            self.freehand_manager = Freehandman()
         elif brush_settings["is_brush_mode"] == "bezier":
             self.bezier_manager = Bezierman()
         elif brush_settings["is_brush_mode"] == "bucket":
@@ -258,7 +271,18 @@ class ImageAnnotator(QMainWindow):
         # Optionally, update the UI or take other actions
         # print(f"New brush size: {brush_settings["size"]}")
         self.update_image_display()  # Update the image to reflect the new brush size
-    
+
+    def updateSliderBinaryThreshold(self):
+        """Handle the slider value change and update the binary mask threshold."""
+        # Get the new value of the slider
+        _thres = self.mainUI.binarythres_slider.value()
+        # remap the value from 0-99 into an integer between 0-255
+        brush_settings["binary_mask_thres"] = int(_thres * 2.55)
+        if self.binary_mask is not None:
+            self.binary_mask.threshold = brush_settings["binary_mask_thres"]
+            
+
+        # Optionally, update the UI or take other actions
 
     def update_webcam_feed(self):
         """Capture and display a new frame from the webcam."""
@@ -314,6 +338,22 @@ class ImageAnnotator(QMainWindow):
         # POLYGON MODE 
         elif brush_settings["is_brush_mode"] == "polygon":
             polygon = self.polygon_manager.current_polygon
+            preview_image = rendered_image.copy()
+            for idx,point in enumerate(polygon["POINTS"]):
+                if idx < len(polygon["POINTS"])-1:
+                    cv2.line(preview_image, point, polygon["POINTS"][idx+1], color=brush_settings["color"], thickness=brush_settings["thickness"])
+                cv2.circle(preview_image, (point.x, point.y), 2, brush_settings["color"], -1)
+                        
+
+            qimage = self.convert_cv_qt(preview_image)
+
+            # Set the QPixmap on the QLabel
+            self.mainUI.imageDisplay.setPixmap(QPixmap.fromImage(qimage))
+        
+        
+        # FREEHAND MODE
+        elif brush_settings["is_brush_mode"] == "freehand":
+            polygon = self.freehand_manager.current_polygon
             preview_image = rendered_image.copy()
             for idx,point in enumerate(polygon["POINTS"]):
                 if idx < len(polygon["POINTS"])-1:
@@ -401,6 +441,12 @@ class ImageAnnotator(QMainWindow):
                 local_pos = Coordinate(self.last_point.x(), self.last_point.y())
                 self.polygon_manager.current_polygon["POINTS"].append(local_pos)
                 
+            elif brush_settings["is_brush_mode"] == "freehand":
+                global_pos = event.globalPos()  # Get global position
+                self.last_point = self.map_to_image_display(global_pos)
+                local_pos = Coordinate(self.last_point.x(), self.last_point.y())
+                self.freehand_manager.startFreehand(local_pos)
+                
             elif brush_settings["is_brush_mode"] == "bezier":
                 self.bezier_manager.onMouseEventDown(self.bezier_current_pos)
                 
@@ -441,6 +487,12 @@ class ImageAnnotator(QMainWindow):
                 self.bezier_current_pos = Coordinate(self.last_point.x(), self.last_point.y())
                 self.bezier_manager.update(self.bezier_current_pos)
             
+            elif cursor_settings["in_display"] and brush_settings["is_brush_mode"] == "freehand":
+                global_pos = event.globalPos()  # Get global position
+                self.last_point = self.map_to_image_display(global_pos)
+                self.freehand_current_pos = Coordinate(self.last_point.x(), self.last_point.y())
+                self.freehand_manager.updatePolyOnMove(self.freehand_current_pos)
+            
             self.update_image_display()
             
         
@@ -478,7 +530,10 @@ class ImageAnnotator(QMainWindow):
                 self.last_point = self.map_to_image_display(global_pos)
                 self.bezier_current_pos = Coordinate(self.last_point.x(), self.last_point.y())
                 self.bezier_manager.update(self.bezier_current_pos)
-
+            if brush_settings["is_brush_mode"] == "freehand":
+                if event.button() == Qt.LeftButton:
+                    self.freehand_manager.finishPolygon()
+                    
     def wheelEvent(self, event):
         """Handle mouse scroll events."""
         if cursor_settings["in_display"] and brush_settings["is_brush_mode"]=="brush":
@@ -496,6 +551,7 @@ class ImageAnnotator(QMainWindow):
             # Check if the Enter key was pressed
             if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
                 self.polygon_manager.finishPolygon()
+                
                 
         elif brush_settings["is_brush_mode"] == "bezier":
             if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:

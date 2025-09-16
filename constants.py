@@ -67,7 +67,7 @@ savePath = jn(os.path.dirname(__file__),"output.txt")
 # DD. BRUSH_SETTINGS
 # brush_settings = {"color":(int, int, int)}
 # interp. a set of parameters represented as a mutable object to be used globally within different submodules of the program
-brush_settings = {"color":(0, 255, 0), "size":20,"resize_sensitivity":5, "is_brush_mode":"brush", "brush_strokes_in_memory_counter":0,"opacity":0,"color_before_substracting_mode":None,"thickness":1}
+brush_settings = {"color":(0, 255, 0), "size":20,"resize_sensitivity":5, "is_brush_mode":"brush", "brush_strokes_in_memory_counter":0,"opacity":0,"color_before_substracting_mode":None,"thickness":1, "binary_mask_thres":0}
 
 # DD. DISPLAY_SETTINGS
 # display_settings = {"image":np.array, "mask":np.array, "statusBar":QtWidgets.QStatusBar}

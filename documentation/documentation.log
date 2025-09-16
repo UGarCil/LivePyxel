@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.1.18)  5 MAR 2025 08:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.1.18)  16 SEP 2025 18:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**d:/Garcilazo/Python/00Exercises/CHEMAI_projects/000_Uriel/00_livePyxel/scripts/livePyxel/documentation/documentation.tex
-(d:/Garcilazo/Python/00Exercises/CHEMAI_projects/000_Uriel/00_livePyxel/scripts/livePyxel/documentation/documentation.tex
+**d:/Garcilazo/Python/00Exercises/CHEMAI_projects/000_Uriel/00_livePyxel/scripts/livePyxelV4/documentation/documentation.tex
+(d:/Garcilazo/Python/00Exercises/CHEMAI_projects/000_Uriel/00_livePyxel/scripts/livePyxelV4/documentation/documentation.tex
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
 (C:\Users\Uriel\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -274,12 +274,12 @@ Package rerunfilecheck Info: File `documentation.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  8829 strings out of 473535
- 139849 string characters out of 5714935
+ 139869 string characters out of 5714935
  537257 words of memory out of 5000000
  31952 multiletter control sequences out of 15000+600000
  563595 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,6n,79p,362b,437s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,6n,79p,364b,437s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Uriel\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/Uriel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Uriel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Uriel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Uriel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Uriel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
 Output written on documentation.pdf (3 pages, 90908 bytes).
 PDF statistics:

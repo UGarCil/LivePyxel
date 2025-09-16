@@ -13,7 +13,7 @@ class Binman():
     def __init__(self, parent=None):
         # Store a reference to the parent ImageAnnotator
         self.parent = parent
-        self.threshold = 120 # default threshold value
+        self.threshold = brush_settings["binary_mask_thres"]  # default threshold value
         self.binary_mask = None
 
     def onMouseEventDown(self):
