@@ -1,1 +1,39 @@
 __pycache__/
+*.pyc
+documentation/*.aux
+documentation/*.fdb_latexmk
+documentation/*.fls
+documentation/*.log
+documentation/*.out
+documentation/*.synctex.gz
+.venv_livepyxel/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Packaging / build artifacts
+dist/
+build/
+*.egg-info/
+.eggs/
+*.whl
+pip-wheel-metadata/
+
+# Virtual envs
+.venv*/
+venv/
+env/
+.conda/
+
+# Test/coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

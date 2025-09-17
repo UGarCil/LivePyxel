@@ -1,5 +1,5 @@
-from constants import *
 import numpy as np
+from .constants import *
 # DD. POINT
 # pt = Coordinate(int,int)
 # interp. a point in the scaled view of a webcam feed, scaled to fit the imageDisplay Widget of the main program
