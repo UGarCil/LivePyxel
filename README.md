@@ -2,38 +2,122 @@
 
 ![logo livePyxel](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/main_logo_long.png)
 ![software preview](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/gif_view.gif)
-LivePyxel is a python-based application, designed for a fast pixel annotation of images taken directly from a webcam feed  
 
-# TUTORIALS
-- Using LivePyxel for the first time:  https://ugarcil.github.io/LivePyxel/tutorials.html
+**LivePyxel** is a Python-based GUI for fast pixel annotation of images captured directly from a webcam feed. It’s designed to speed up dataset preparation for instance segmentation and other ML workflows.
 
-## INSTALLATION
+---
 
-You will need a version of python >=3.9 with the following libraries installed:  
+## Tutorials
+- **Getting started**: https://ugarcil.github.io/LivePyxel/tutorials.html
 
+---
 
-&emsp; pyqt5  
-&emsp; opencv
+## Requirements
+- **Python**: 3.9 – 3.12 recommended
+- **OS**: Windows, macOS, or Linux
+- **Core deps** (installed for you via pip unless using a conda env below):
+  - PyQt5 (Qt5)
+  - OpenCV (cv2)
+  - NumPy
 
-I recommend the use of a virtual environment. For a commercial laptop, a good choice is to use Anaconda. Install anaconda for your OS and follow the next steps:  
+> Tip: If you’re on Windows and prefer Conda, see the **Conda** section; Conda’s Qt/OpenCV packages are very reliable there.
 
-1. Clone the repository to your computer
-2. Open Terminal OR the Anaconda Prompt, and navigate to the folder LivePyxel (if you didn't add Anaconda to the path variables, accessing it via command prompt is not available, but you can use the Anaconda Prompt).
+---
 
-3. Run 
-    
-```
-    conda env create -f requirements.yaml
-```
-4. Once the new environment has been created, you can type 
-```
-    conda activate livepyxel-env
-```
+## Option A — Quick install from PyPI (recommended for users)
 
-5. Now you can open the program by entering the measure_curves or measure_lines folder, then execute the python script:  
-```
-    python main.py
+```bash
+pip install --upgrade pip
+pip install livepyxel
 ```
 
-# DOCUMENTATION
-You can find targeted tutorials for each submodule, and additional information in the official online docs at https://ugarcil.github.io/LivePyxel/
+Run the app:
+
+```bash
+LivePyxel
+# or
+livepyxel
+# or
+python -m livepyxel
+```
+
+### (Optional) Create a virtual environment first
+**Windows (PowerShell / cmd):**
+```bash
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install --upgrade pip
+pip install livepyxel
+LivePyxel
+```
+
+**macOS / Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install livepyxel
+LivePyxel
+```
+
+---
+
+## Option B — Conda environments
+
+You can use Conda to manage Python and heavy binary deps (Qt, OpenCV, NumPy), and then install LivePyxel from PyPI **without** re-installing those deps via pip.
+
+### 1) End users (install the released package)
+Run the file **`environment.yml`** at the repo root
+
+This will create a new env called livepyxel-env, then run the app:
+```bash
+conda activate livepyxel
+LivePyxel
+```
+
+
+---
+
+## Option C — From source with pip (no Conda)
+
+For contributors who prefer pure pip/venv:
+
+```bash
+git clone https://github.com/UGarCil/LivePyxel.git
+cd LivePyxel
+
+python -m venv .venv
+.\.venv\Scripts\activate   # Windows
+# source .venv/bin/activate  # macOS/Linux
+
+pip install --upgrade pip
+pip install -e .            # editable install for development
+LivePyxel
+```
+
+If you have defined dev extras in `pyproject.toml`, you can do:
+```bash
+pip install -e ".[dev]"
+```
+
+---
+
+## Troubleshooting
+
+- **Command not found**: make sure your virtualenv/conda env is activated before running `LivePyxel`.
+- **Black window / missing icons**: ensure you’re on the latest version and that package data is included (it is by default from PyPI). If running from source, verify `livepyxel/icons/` exists.
+- **Import errors when running a module directly**: launch via `LivePyxel` or `python -m livepyxel` (not by `python livepyxel/imageAnnotator.py`) so package-relative imports work.
+- **OpenCV or Qt conflicts in Conda**: stick to the Conda packages (`pyqt`, `opencv`, `numpy`) and use `pip ... --no-deps` for LivePyxel.
+- **Python version**: prefer Python 3.9–3.12. Python 3.13 support is pending upstream wheels for some deps.
+
+---
+
+## License
+This project is released under the **MIT License**. See `LICENSE` for details.
+
+---
+
+## Links
+- **Docs & Tutorials**: https://ugarcil.github.io/LivePyxel/
+- **Issues**: https://github.com/UGarCil/LivePyxel/issues
+- **PyPI**: https://pypi.org/project/livepyxel/

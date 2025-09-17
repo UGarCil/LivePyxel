@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "livepyxel"
+version = "0.1.2"
+description = "A GUI tool for dataset preparation / annotation (instance segmentation & ML)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "LICENSE"}
+authors = [{ name = "Uriel Garcilazo Cruz", email = "garcilazo.uriel@gmail.com" }]
+keywords = ["annotation", "computer-vision", "opencv", "pyqt5", "gui"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: X11 Applications :: Qt",
+  "Topic :: Scientific/Engineering :: Image Processing"
+]
+
+dependencies = [
+  "PyQt5>=5.15",
+  "opencv-python>=4.5"
+]
+
+[project.urls]
+Homepage = "https://ugarcil.github.io/LivePyxel/"
+Issues = "https://github.com/UGarCil/LivePyxel/issues"
+
+[project.scripts]
+LivePyxel = "livepyxel.imageAnnotator:main"
+livepyxel = "livepyxel.imageAnnotator:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"livepyxel" = ["icons/*"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "black", "build", "twine"]

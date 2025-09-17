@@ -1,4 +1,4 @@
-from constants import *
+from .constants import *
 
 # CD. VideoDeviceManager()
 # purp. manage the video device (webcam) and its properties

@@ -1,6 +1,6 @@
-from constants import *
 import numpy as np
 import math
+from .constants import *
 
 # DD. FREEHAND_MANAGER
 # freehandman = FreehandMan()

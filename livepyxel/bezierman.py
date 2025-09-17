@@ -1,6 +1,6 @@
 import math
-from constants import *
 import numpy as np
+from .constants import *
 
 SUBDIVS = 150 #total number of divisions in a bezier curve
 SEGMENT_DISTANCE = 1/SUBDIVS #how long is a segment relative to a unit

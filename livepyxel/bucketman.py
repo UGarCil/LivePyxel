@@ -1,5 +1,5 @@
-from constants import *
 import numpy as np
+from .constants import *
 
 # DD. POINT
 # pt = Coordinate(int,int)

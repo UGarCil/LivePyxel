@@ -1,11 +1,11 @@
-from constants import *  
-from video_device_manager import VideoDeviceManager, ImageEditor
-from ui_main_window import Ui_MainWindow
-from polyman import Polyman
-from bezierman import Bezierman
-from bucketman import Bucketman
-from binaman import Binman
-from freehandman import Freehandman
+from .constants import *  
+from .video_device_manager import VideoDeviceManager, ImageEditor
+from .ui_main_window import Ui_MainWindow
+from .polyman import Polyman
+from .bezierman import Bezierman
+from .bucketman import Bucketman
+from .binaman import Binman
+from .freehandman import Freehandman
 import platform, subprocess
 # C.D. IMAGE_ANNOTATOR
 # This is the main class that handles the image annotation tool. It is responsible for the following:
@@ -581,15 +581,25 @@ class ImageAnnotator(QMainWindow):
         else:
             # Cancel the close action
             event.ignore()  # Ignore the close event, keeping the window open
-        
-        
-if __name__ == "__main__":
-    # Enable High DPI scaling
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-    # Use the high-resolution icons and fonts
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
-    app = QApplication(sys.argv)
+
+# wrapping everything into a main function to allow for easier integration via PyPI and CLI
+def main(argv=None):
+    """Entry point for CLI and `python -m livepyxel`."""
+    argv = argv or sys.argv
+
+    # High-DPI settings (must be set before QApplication is created)
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
+    app = QApplication(argv)
+
+    # Construct and show your main window
     window = ImageAnnotator()
     window.show()
-    sys.exit(app.exec_())
+
+    return app.exec_()
+        
+
+if __name__ == "__main__":
+    raise SystemExit(main())

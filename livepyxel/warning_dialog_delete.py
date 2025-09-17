@@ -9,7 +9,7 @@
 
 
 
-from constants import *
+from .constants import *
 
 
 class Ui_Dialog(object):
