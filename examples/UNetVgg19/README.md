@@ -28,22 +28,16 @@ Once you have the required files (`images/`, `masks/`, and `config.json`) create
 3. **Run the main script** with the following command:
 
 ```powershell
-python main.py --config config.json --images images --masks masks
+python main.py
 ```
 
 Replace the paths if your files are located elsewhere. The script will use the configuration and data to train or evaluate the UNetVgg19 model.
-
-### Arguments
-- `--config`: Path to the configuration file (JSON format).
-- `--images`: Directory containing input images.
-- `--masks`: Directory containing corresponding mask images.
-
 
 ---
 
 ## Model Architecture
 
-Below is a diagram illustrating the UNetVgg19 architecture:
+Below is a diagram illustrating the modular structure that surrounds the UNetVgg19 architecture (arrows indicate data flow from — arrow tail — to — arrowhead —):
 
 ![UNetVgg19 Architecture](../../documentation/Figures/diagram_vgg19.png)
 
