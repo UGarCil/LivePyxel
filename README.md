@@ -1,7 +1,6 @@
 # LivePyxel
 
-![logo livePyxel](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/main_logo_long.png)
-![software preview](https://raw.githubusercontent.com/UGarCil/LivePyxel/main/icons/gif_view.gif)
+![logo livePyxel](https://raw.githubusercontent.com/UGarCil/LivePyxel/blob/gh-pages/images/logo_long.png)
 
 **LivePyxel** is a Python-based GUI for fast pixel annotation of images captured directly from a webcam feed. It’s designed to speed up dataset preparation for instance segmentation and other ML workflows.
 
