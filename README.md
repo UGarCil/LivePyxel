@@ -1,4 +1,6 @@
-# LivePyxel
+# LivePyxel  [![arXiv](https://img.shields.io/badge/arXiv-2509.13504-b31b1b.svg)](https://arxiv.org/abs/2509.13504)
+
+
 
 ![logo livePyxel](./documentation/Figures/main_logo.png)
 
@@ -120,3 +122,20 @@ This project is released under the **MIT License**. See `LICENSE` for details.
 - **Docs & Tutorials**: https://ugarcil.github.io/LivePyxel/
 - **Issues**: https://github.com/UGarCil/LivePyxel/issues
 - **PyPI**: https://pypi.org/project/livepyxel/
+
+---
+
+## Bibtex [![arXiv](https://img.shields.io/badge/arXiv-2509.13504-b31b1b.svg)](https://arxiv.org/abs/2509.13504)
+If you like LivePyxel please give is :star: and cite our work.
+
+```latex
+@misc{livepyxel,
+      title={LivePyxel: Accelerating image annotations with a Python-integrated webcam live streaming}, 
+      author={Uriel Garcilazo-Cruz and Joseph O. Okeme and Rodrigo A. Vargas-Hernández},
+      year={2025},
+      eprint={2509.13504},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2509.13504}, 
+}
+```
