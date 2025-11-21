@@ -2,7 +2,10 @@
 
 
 
-![logo livePyxel](./documentation/Figures/main_logo.png)
+<div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap">
+  <img src="./documentation/Figures/main_logo.png" alt="LivePyxel logo" style="max-width:48%; height:auto;">
+  <img src="./documentation/Figures/gif_demo.gif" alt="LivePyxel demo" style="max-width:48%; height:auto;">
+</div>
 
 **LivePyxel** is a Python-based GUI for fast pixel annotation of images captured directly from a webcam feed. It’s designed to speed up dataset preparation for instance segmentation and other ML workflows.
 
