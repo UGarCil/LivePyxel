@@ -1,5 +1,6 @@
-# LivePyxel  [![arXiv](https://img.shields.io/badge/arXiv-2509.13504-b31b1b.svg)](https://arxiv.org/abs/2509.13504)
-
+# LivePyxel  
+<!--  [![arXiv](https://img.shields.io/badge/arXiv-2509.13504-b31b1b.svg)](https://arxiv.org/abs/2509.13504) -->
+[![DOI:10.1039/d5dd00421g](https://img.shields.io/badge/DOI-10.1039%2Fd5dd00421g-blue)](https://doi.org/10.1039/d5dd00421g)
 
 | ![LivePyxel logo](./documentation/Figures/main_logo.png) | ![LivePyxel demo](./documentation/Figures/gif_demo.gif) |
 |---|---|
