@@ -6,7 +6,7 @@
 |---|---|
 
 
-**LivePyxel** is a Python-based GUI for fast pixel annotation of images captured directly from a webcam feed. It’s designed to speed up dataset preparation for instance segmentation and other ML workflows.
+**LivePyxel** is a Python-based GUI for fast pixel annotation of images captured directly from a webcam feed. It’s designed to speed up dataset preparation for instance segmentation and other ML workflows. You can find the full paper describing LivePyxel in detail here: [DOI:10.1039/d5dd00421g](https://pubs.rsc.org/en/content/articlelanding/2026/dd/d5dd00421g).
 
 ---
 
@@ -127,18 +127,15 @@ This project is released under the **MIT License**. See `LICENSE` for details.
 
 ---
 
-## Bibtex [![arXiv](https://img.shields.io/badge/arXiv-2509.13504-b31b1b.svg)](https://arxiv.org/abs/2509.13504)
-If you like LivePyxel please give is :star: and cite our work.
+If you like LivePyxel and would like to use it in your reseach, you can cite the paper as follows:
 
 ```latex
-@misc{livepyxel,
-      title={LivePyxel: Accelerating image annotations with a Python-integrated webcam live streaming}, 
-      author={Uriel Garcilazo-Cruz and Joseph O. Okeme and Rodrigo A. Vargas-Hernández},
-      year={2025},
-      eprint={2509.13504},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2509.13504}, 
+@article{garcilazo2026livepyxel,
+  title={LivePyxel: Accelerating image annotations with a Python-integrated webcam live streaming},
+  author={Garcilazo-Cruz, Uriel and Okeme, Joseph O and Vargas-Hern{\'a}ndez, Rodrigo A},
+  journal={Digital Discovery},
+  year={2026},
+  publisher={Royal Society of Chemistry}
 }
 ```
 ## [Dataset](https://zenodo.org/records/17858610)
